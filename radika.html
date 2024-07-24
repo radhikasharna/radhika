@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: whitesmoke;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-theme {
+            background-color: #333;
+            color: whitesmoke;
+        }
+
+        .menu-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: whitesmoke;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px blanchedalmond;
+            transition: background-color 0.3s;
+        }
+        .menu-bar.dark-theme {
+            background-color: #444;
+        }
+
+        .logo img {
+            height: 50px;
+            opacity: 0.7;
+        }
+
+        .menu-options {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-option {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .menu-option a {
+            text-decoration: none;
+            color: orangered;
+            padding: 10px 15px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-option a:hover {
+            background-color: white;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 8px whitesmoke;
+            z-index: 1000;
+        }
+
+        .submenu-item {
+            padding: 10px 20px;
+            white-space: nowrap;
+        }
+
+        .submenu-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .menu-option:hover .submenu {
+            display: block;
+        }
+
+        .menu-bar .auth-links a {
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+            background-color: blue;
+        }
+
+        .menu-bar .auth-links a:hover {
+            background-color: #696969;
+        }
+
+        .carousel-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 48%;
+            overflow: hidden;
+        }
+
+        .carousel img, .carousel .text-slide {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        .carousel img.active, .carousel .text-slide.active {
+            display: block;
+        }
+
+        .carousel .text-slide {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .menu-bar {
+                flex-direction: column;
+            }
+
+            .menu-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu-option {
+                margin: 10px 0;
+            }
+
+            .menu-bar .auth-links {
+                margin-top: 10px;
+            }
+
+            .carousel-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .carousel {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        footer.dark-theme {
+            background-color: #222;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+            flex: 1 1 200px;
+            min-width: 200px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin: 5px 0;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .google-map {
+            flex: 1 1 300px;
+            max-width: 300px;
+            margin-left: 20px;
+        }
+
+        .google-map iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #fff;
+            margin: 20px 0;
+        }
+
+        .modal-content {
+            background-color: white;
+            color: white;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #ff6347;
+        }
+
+        .modal-header .close {
+            color: white;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #e60000;
+            border-color: #e60000;
+        }
+
+        .nav-tabs .nav-link {
+            color: white;
+        }
+
+        .form-control {
+            background-color: white;
+            border: 1px solid #ced4da;
+            color: #495057;
+        }
+
+        .form-control::placeholder {
+            color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: blue;
+            border-color: blue;
+        }
+
+        .btn-primary:hover {
+            background-color: blue;
+            border-color: blue;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: darkorange;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .theme-toggle:hover {
+            background-color: orangered;
+        }
+
+        .popup {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(253, 252, 252, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background-color: whitesmoke;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px var(--container-shadow-color);
+      text-align: center;
+      position: relative;
+      color: black;
+    }
+
+    .popup-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #04b2d5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .popup-buttons button:hover {
+      background-color: #0299bb;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="logo">
+            <img src="log.png" alt="Logo">
+        </div>
+        <ul class="menu-options">
+            <li class="menu-option">
+                <a href="#" style="color: red;">HOME</a>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: red;">ABOUT</a>
+                <div class="submenu">
+                    <a href="#" style="color: chartreuse;" class="submenu-item">ACADEMIC'S</a>
+                    <a href="#" style="color: chartreuse;" class="submenu-item">NON-ACADEMIC'S</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color:red;">MY PROJECT</a>
+                <div class="submenu">
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 1</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 2</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 3</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 4</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color:red;">BLOG</a>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: red;">SOCIAL</a>
+                <div class="submenu">
+                    <a href="https://www.linkedin.com/in/yourprofile" style="color: darkorchid;" class="submenu-item">LINKEDIN</a>
+                    <a href="https://www.instagram.com/mamtaxttri7076/https://www.instagram.com/mamtaxttri7076/" style="color: darkorchid;" class="submenu-item">INSTAGRAM</a>
+                    <a href="https://www.facebook.com/suku.tamang.75286/" style="color: darkorchid;" class="submenu-item">FACEBOOK</a>
+                    <a href="https://www.snapchat.com/add/r_dangal24?share_id=03U2GHmOKl4&locale=en-IN" style="color: darkorchid;" class="submenu-item">SNAPCHAT</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color:red;">Contact</a>
+            </li>
+        </ul>
+        <div class="auth-links">
+            <a href="dangal23.html">REGISTER/LOGIN</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel" id="textCarousel">
+            <div class="text-slide active">
+                <br><b>Hi, I'm RADHIKA, </b>
+                 and my hobby is watching web series.
+                 I love immersing myself in different stories and exploring various genres.
+                  Whether it's thrilling mysteries, heartwarming dramas, or mind-bending science fiction,
+                   I find joy in the diverse narratives and character developments.
+                    Watching web series allows me to relax, unwind, and experience new perspectives from the comfort of my home.
+                     It'     <button class="btn btn-primary mt-3"><b>Hire Me</b></button>
+            </div>
+                
+            <div class="text-slide">
+                <b>Database</b><br>
+                A database is like a digital storage system where you can store, organize, 
+                and retrieve information in a structured and efficient manner.
+                It's a fundamental tool used in many applications and industries to manage data effectively.
+            </div>
+            <div class="text-slide">
+                <b>Cyber Security</b><br>
+                Cyber security is the practice of defending computers,
+                servers, mobile devices, electronic systems,
+                networks, and data from malicious attacks.
+            </div>
+            <div class="text-slide">
+                <b>FOOTBALL</b><br>
+                Football is a family of team sports that involve, to varying degrees,
+                kicking a ball to score a goal. Unqualified, the word football normally means 
+                the form of football that is the most popular where the word is used. Sports commonly called football 
+                include association football (known as soccer in Australia, Canada, South Africa, the United States, and sometimes 
+                in Ireland and New Zealand); Australian rules football; Gaelic football; gridiron football (specifically 
+                American football, arena football, or Canadian football); International rules football; rugby league football; and rugby union football.
+            </div>
+        </div>
+        <div class="carousel" id="imageCarousel">
+            <img src="image2.jpg" alt="Image 1" class="active">
+            <img src="image2.jpg" alt="Image 2">
+            <img src="image3.jpg" alt="Image 3">
+            <img src="image4.jpg" alt="Image 4">
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-section">
+            <h4>About</h4>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>My Project</h4>
+            <ul>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Blogs</h4>
+            <ul>
+                <li><a href="#">Latest Posts</a></li>
+                <li><a href="#">Popular Posts</a></li>
+                <li><a href="#">Archived Posts</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Social</h4>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+        <div class="google-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28640.219204049847!2d88.49429801692364!3d27.233819805244276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374916081b3950b9%3A0x9d0551192a8e5458!2sSingtam%20Sankhola!5e0!3m2!1sen!2sin!4v1645526678608!5m2!1sen!2sin" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </footer>
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+          <span class="close" id="close-popup">&times;</span>
+          <h2>Welcome!</h2>
+          <p>Would you like to Sign In or Sign Up?</p>
+          <div class="popup-buttons">
+            <button onclick="window.location.href='login.html'">Sign In</button>
+            <button onclick="window.location.href='login.html'">Sign Up</button>
+          </div>
+        </div>
+      </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        let imageIndex = 0;
+        let textIndex = 0;
+        const images = document.querySelectorAll('#imageCarousel img');
+        const textSlides = document.querySelectorAll('#textCarousel .text-slide');
+
+        function showNextImage() {
+            images[imageIndex].classList.remove('active');
+            imageIndex = (imageIndex + 1) % images.length;
+            images[imageIndex].classList.add('active');
+        }
+
+        function showNextText() {
+            textSlides[textIndex].classList.remove('active');
+            textIndex = (textIndex + 1) % textSlides.length;
+            textSlides[textIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 3000);
+        setInterval(showNextText, 3000);
+
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const menuBar = document.querySelector('.menu-bar');
+        const footer = document.querySelector('footer');
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            menuBar.classList.toggle('dark-theme');
+            footer.classList.toggle('dark-theme');
+        });
+        const popup = document.getElementById('popup');
+    const closePopup = document.getElementById('close-popup');
+
+    // Show the popup after 10 seconds
+    setTimeout(() => {
+      popup.style.display = 'flex';
+    }, 10000);
+
+    // Close the popup when the close button is clicked
+    closePopup.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    // Close the popup when clicking outside of it
+    window.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+     
+
+      
+    </script>   
+</body>
+</html>
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: greenyellow;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .form-container {
+            display: none;
+        }
+        .form-container.active {
+            display: block;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .remember-me {
+            display: inline;
+        
+            margin: 17px -9px;
+        }
+        .remember-me input {
+            margin: 10px;
+        }
+        .submit-button {
+            display: flex;
+            justify-content: center;
+        }
+        .g-recaptcha {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <!-- reCAPTCHA API script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="button-container">
+            <button onclick="showForm('login')">Login</button>
+            <button onclick="showForm('register')">Register</button>
+        </div>
+        <div id="login" class="form-container active">
+            <h2>Login</h2>
+            <form action="register.php" method="POST">
+                <input type="hidden" name="login" value="1">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" onclick="handleRememberMe()">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <div class="g-recaptcha" data-sitekey="6Ld4GfMpAAAAAB3FGocGMeiasqSLd3i4y0-EUxQN"></div>
+                <div class="submit-button">
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+        <div id="register" class="form-container">
+            <h2>Register</h2>
+            <form action="register.php" method="POST">
+                <input type="hidden" name="register" value="1">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <div class="submit-button">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showForm(formId) {
+            document.getElementById('login').classList.remove('active');
+            document.getElementById('register').classList.remove('active');
+            document.getElementById(formId).classList.add('active');
+        }
+
+        function handleRememberMe() {
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            if (rememberMeCheckbox.checked) {
+                document.cookie = "rememberMe=true; max-age=" + (30 * 24 * 60 * 60) + "; path=/";
+            } else {
+                document.cookie = "rememberMe=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            }
+        }
+    </script>
+</body>
+</html>

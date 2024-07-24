@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: white; /* Light grey background color */
+            color: #333; /* Dark text color for readability */
+        }
+        /* General styling for the menu bar */
+        .menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white; /* Change to your desired green color */
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+        .logo img {
+            height: 50px; /* Adjust based on your logo size */
+            opacity: 0.7; /* Adjust the opacity as needed */
+        }
+
+        .menu-options {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-option {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .menu-option a {
+            text-decoration: none;
+            color: orangered;
+            padding: 10px 15px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-option a:hover {
+            background-color: blue;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .submenu-item {
+            padding: 10px 20px;
+            white-space: nowrap;
+        }
+
+        .submenu-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .menu-option:hover .submenu {
+            display: block;
+        }
+
+        /* Styling for the Sign In and Register buttons */
+        .menu-bar .auth-links a {
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+            background-color: blue;
+        }
+
+        .menu-bar .auth-links a:hover {
+            background-color: #696969;
+        }
+
+        /* Carousel container styling */
+        .carousel-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 48%;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .carousel img, .carousel .text-slide {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        .carousel img.active, .carousel .text-slide.active {
+            display: block;
+        }
+
+        .carousel .text-slide {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .menu-bar {
+                flex-direction: column;
+            }
+
+            .menu-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu-option {
+                margin: 10px 0;
+            }
+
+            .menu-bar .auth-links {
+                margin-top: 10px;
+            }
+
+            .carousel-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .carousel {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .footer-section {
+            margin-bottom: 20px;
+            flex: 1 1 200px; /* Flex-grow, flex-shrink, and flex-basis */
+            min-width: 200px; /* Ensures a minimum width for responsiveness */
+        }
+        .footer-section h4 {
+            margin-bottom: 5px;
+        }
+        .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .footer-section ul li { 
+            margin: 5px 0;
+        }
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .google-map {
+            flex: 1 1 300px; /* Adjust the flex basis as needed */
+            max-width: 300px; /* Set a maximum width for the map */
+            margin-left: 20px; /* Add some space between the sections */
+        }
+
+        .google-map iframe {
+            width: 100%;
+            height: 200px; /* Adjust height as needed */
+            border: none;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #fff; /* Change the color as needed */
+            margin: 20px 0; /* Adjust the margin as needed */
+        }
+
+        /* Custom styles for the red modal */
+        .modal-content {
+            background-color: #ff0000; /* Red background color */
+            color: white; /* White text color */
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #ff6347; /* Tomato red border color */
+        }
+
+        .modal-header .close {
+            color: white;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #e60000; /* Slightly darker red for active tab */
+            border-color: #e60000;
+        }
+
+        .nav-tabs .nav-link {
+            color: white;
+        }
+
+        .form-control {
+            background-color: white; /* Light red input background */
+            border: 1px solid white; /* Darker red border */
+            color: black; /* Dark text color for inputs */
+        }
+
+        .form-control::placeholder {
+            color: #ff6666; /* Darker red placeholder text */
+        }
+
+        .btn-primary {
+            background-color: #e60000; /* Primary button in red */
+            border-color: #e60000;
+        }
+
+        .btn-primary:hover {
+            background-color: #cc0000; /* Darker red on hover */
+            border-color: #cc0000;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="logo">
+            <img src="mm.jpg" alt="">
+        </div>
+        <ul class="menu-options">
+            <li class="menu-option">
+                <a href="#" style="color: black;">HOME</a>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: black;">ABOUT</a>
+                <div class="submenu">
+                    <a href="#" style="color: chartreuse;" class="submenu-item">ACADEMIC'S</a>
+                    <a href="#" style="color: chartreuse;" class="submenu-item">NON-ACADEMIC'S</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: black;">MY PROJECT</a>
+                <div class="submenu">
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 1</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 2</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 3</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 4</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: black;">BLOG</a>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: black;">SOCIAL</a>
+                <div class="submenu">
+                    <a href="#" style="color: darkorchid;" class="submenu-item">LINKEDIN</a>
+                    <a href="#" style="color: darkorchid;" class="submenu-item">INSTAGRAM</a>
+                    <a href="#" style="color: darkorchid;" class="submenu-item">FACEBOOK</a>
+                    <a href="#" style="color: darkorchid;" class="submenu-item">SNAPCHAT</a>
+                </div>
+            </li>
+        </ul>
+        <div class="auth-links">
+            <a href="#" data-toggle="modal" data-target="#registerModal">REGISTER/LOGIN</a>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel" id="textCarousel">
+            <div class="text-slide active">
+                NETWORK SECURITY<br>
+                Network Security protects your network and data from breaches
+				intrusions and other threats. This is a vast and overarching term that 
+				describes hardware and software solutions as well as processes or rules and configurations
+				relating to network use, accessibility, and overall threat protection.connection.
+            </div>
+            <div class="text-slide">
+                Database<br>
+                A database is like a digital storage system where you can store, organize, 
+                and retrieve information in a structured and efficient manner.
+                It's a fundamental tool used in many applications and industries to manage data effectively.
+            </div>
+            <div class="text-slide">
+                LINUX<br>
+                Linux is a Unix-like, open source and community-developed operating system (OS)
+				for computers, servers, mainframes, mobile devices and embedded devices. It is
+				supported on almost every major computer platform, including x86, ARM and SPARC,
+				making it one of the most widely supported operating systems.
+            </div>
+            <div class="text-slide">
+                BADMINTON<br>
+                Badminton is a competitive sport that 
+				requires speed, agility and skill on the court.A badminton match consists 
+				of the best-of-three games of 21 points.
+				 It is a racquet sport in which two or four players hit a shuttlecock back
+				and forth using racquets held crosswise. The shuttlecock is very light. 
+            </div>
+        </div>
+        <div class="carousel" id="imageCarousel">
+            <img src="image 1.jpg" alt="Image 1" class="active">
+            <img src="image 2.jpg" alt="Image 2">
+            <img src="image1.jpg" alt="Image 3">
+            <img src="image2.jpg" alt="Image 4">
+        </div>
+    </div>
+
+   
+
+    <footer>
+        <div class="footer-section">
+            <h4>About</h4>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>My Project</h4>
+            <ul>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Blogs</h4>
+            <ul>
+                <li><a href="#">Latest Posts</a></li>
+                <li><a href="#">Popular Posts</a></li>
+                <li><a href="#">Archived Posts</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Social</h4>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+        <div class="google-map">
+            <!-- Add Google Map iframe -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28640.219204049847!2d88.49429801692364!3d27.233819805244276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374916081b3950b9%3A0x9d0551192a8e5458!2sSingtam%20Sankhola!5e0!3m2!1sen!2sin!4v1645526678608!5m2!1sen!2sin" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </footer>
+
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let imageIndex = 0;
+        let textIndex = 0;
+        const images = document.querySelectorAll('#imageCarousel img');
+        const textSlides = document.querySelectorAll('#textCarousel .text-slide');
+
+        function showNextImage() {
+            images[imageIndex].classList.remove('active');
+            imageIndex = (imageIndex + 1) % images.length;
+            images[imageIndex].classList.add('active');
+        }
+
+        function showNextText() {
+            textSlides[textIndex].classList.remove('active');
+            textIndex = (textIndex + 1) % textSlides.length;
+            textSlides[textIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 3000); // Change image every 3 seconds
+        setInterval(showNextText, 3000); // Change text every 3 seconds
+    </script>
+    
+
+     
+</body>
+</html>
